@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internal Community Token · Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <p class="kicker">Sepolia Control Panel</p>
+          <h1>ICT Console</h1>
+        </div>
+      </div>
+
+      <div class="wallet-stack">
+        <button id="connectBtn" class="btn btn-primary btn-full">Connect Wallet</button>
+        <div class="meta-list">
+          <div class="meta-pill" id="networkBadge">Network: Unknown</div>
+          <div class="meta-pill" id="accountBadge">Wallet not connected</div>
+          <div class="meta-pill" id="walletBalance">Balance: -</div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Admin sections">
+        <button class="nav-tab active" data-tab="overview">Overview</button>
+        <button class="nav-tab" data-tab="transfer">Transfer</button>
+        <button class="nav-tab" data-tab="distribute">Distribute</button>
+		<button class="nav-tab" data-tab="whitelist">Whitelist</button>
+        <button class="nav-tab" data-tab="tokenomics">Tokenomics</button>
+        <button class="nav-tab" data-tab="roles">Roles</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="panel tab-panel active reveal" id="tab-overview">
+        <div class="section-head section-head-compact">
+          <div>
+            <h3>Overview</h3>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <article class="stat-block">
+            <span>Version</span>
+            <strong id="versionValue">-</strong>
+          </article>
+          <article class="stat-block">
+            <span>Name</span>
+            <strong id="nameValue">-</strong>
+          </article>
+          <article class="stat-block">
+            <span>Symbol</span>
+            <strong id="symbolValue">-</strong>
+          </article>
+          <article class="stat-block">
+            <span>Treasury</span>
+            <strong id="treasuryValue" class="mono">-</strong>
+          </article>
+          <article class="stat-block">
+            <span>Total Supply</span>
+            <strong id="supplyValue">-</strong>
+          </article>
+          <article class="stat-block">
+            <span>Treasury Balance</span>
+            <strong id="treasuryBalanceValue">-</strong>
+          </article>
+          <article class="stat-block stat-wide">
+            <span>Proxy Address</span>
+            <strong id="proxyValue" class="mono">-</strong>
+          </article>
+        </div><br>
+		 <button id="loadBtn" class="btn btn-secondary">Refresh Contract Data</button>
+      </section>
+
+      <section class="panel tab-panel reveal" id="tab-whitelist">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Access control checks & updates</p>
+            <h3>Whitelist</h3>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <label class="field">
+            <span>Address to inspect</span>
+            <input id="whitelistCheckAddress" type="text" placeholder="0x..." />
+          </label>
+
+          <div class="action-row">
+            <button id="checkWhitelistBtn" class="btn btn-secondary">Check Whitelist</button>
+          </div>
+
+          <div class="inline-result" id="whitelistResult">Result will appear here.</div>
+
+          <div class="spacer"></div>
+
+          <label class="field">
+            <span>Single address</span>
+            <input id="whitelistManageAddress" type="text" placeholder="0x..." />
+          </label>
+
+          <div class="action-row">
+            <button id="whitelistAddBtn" class="btn btn-primary">Add</button>
+            <button id="whitelistRemoveBtn" class="btn btn-secondary">Remove</button>
+          </div><br>
+
+          <label class="field">
+            <span>Mass whitelist addresses</span>
+            <textarea id="massWhitelistAddresses" class="textarea-fixed" placeholder="Enter one address per line, or separate by commas"></textarea>
+          </label>
+
+          <div class="action-row">
+            <button id="massWhitelistAddBtn" class="btn btn-primary">Mass Add</button>
+            <button id="massWhitelistRemoveBtn" class="btn btn-secondary">Mass Remove</button>
+          </div>
+
+          <p class="stack-note">Mass whitelist uses <span class="mono">massWhitelist(address[], bool),</span> use it for for batched updates!</p>
+        </div>
+      </section>
+
+      <section class="panel tab-panel reveal" id="tab-tokenomics">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Supply management</p>
+            <h3>Tokenomics</h3>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <label class="field">
+            <span>Target address</span>
+            <input id="tokenomicsAddress" type="text" placeholder="0x..." />
+          </label>
+
+          <label class="field">
+            <span>Amount</span>
+            <input id="tokenomicsAmount" type="text" placeholder="e.g. 100" />
+          </label>
+
+          <div class="action-row">
+            <button id="mintBtn" class="btn btn-primary">Mint</button>
+            <button id="burnBtn" class="btn btn-secondary">Burn</button>
+          </div>
+
+          <p class="helper-text">Mint uses <span class="mono">mint(address,uint256)</span>. Burn uses <span class="mono">burnByAdmin(address,uint256)</span>.</p>
+        </div>
+      </section>
+
+      <section class="panel tab-panel reveal" id="tab-transfer">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Standard ERC-20 transfer</p>
+            <h3>Transfer</h3>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <label class="field">
+            <span>Recipient</span>
+            <input id="transferTo" type="text" placeholder="0x..." />
+          </label>
+
+          <label class="field">
+            <span>Amount</span>
+            <input id="transferAmount" type="text" placeholder="e.g. 10" />
+          </label>
+
+          <div class="action-row">
+            <button id="transferBtn" class="btn btn-primary">Send Transfer</button>
+          </div>
+
+          <p class="helper-text">Uses <span class="mono">transfer(address,uint256)</span> from the connected wallet balance.</p>
+        </div>
+      </section>
+
+      <section class="panel tab-panel reveal" id="tab-distribute">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Treasury-based manager actions</p>
+            <h3>Distribute</h3>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <label class="field">
+            <span>Recipient</span>
+            <input id="distributeTo" type="text" placeholder="0x..." />
+          </label>
+
+          <label class="field">
+            <span>Amount</span>
+            <input id="distributeAmount" type="text" placeholder="e.g. 25" />
+          </label>
+
+          <div class="action-row">
+            <button id="distributeBtn" class="btn btn-primary">Execute Distribution</button>
+          </div>
+
+          <div class="spacer"></div>
+
+          <label class="field">
+            <span>Mass distribute recipients</span>
+            <textarea id="massDistributeRecipients" class="textarea-fixed" placeholder="Enter one address per line, or separate by commas"></textarea>
+          </label>
+
+          <label class="field">
+            <span>Mass distribute amounts</span>
+            <textarea id="massDistributeAmounts" class="textarea-fixed" placeholder="Enter one amount per line, or separate by commas"></textarea>
+          </label>
+
+          <div class="action-row">
+            <button id="massDistributeBtn" class="btn btn-primary">Mass Distribute</button>
+          </div>
+
+          <p class="helper-text">Single mode uses <span class="mono">distribute(address,uint256)</span>. Batch mode uses <span class="mono">massDistribute(address[],uint256[])</span>; the number of addresses must match the number of amounts.</p>
+        </div>
+      </section>
+
+      <section class="panel tab-panel reveal" id="tab-roles">
+        <div class="section-head">
+          <div>
+            <p class="section-label">Permission management & status control</p>
+            <h3>Roles</h3>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <label class="field">
+            <span>Address to inspect</span>
+            <input id="roleInspectAddress" type="text" placeholder="0x..." />
+          </label>
+
+          <div class="action-row">
+            <button id="roleInspectBtn" class="btn btn-secondary">Check Status</button>
+          </div>
+
+          <div class="inline-result" id="roleInspectResult">Result will appear here.</div>
+
+          <div class="spacer"></div>
+		  <div class="role-picker">
+            <button id="roleManagerBtn" class="btn btn-secondary role-btn" type="button">Manager</button>
+            <button id="roleUpgraderBtn" class="btn btn-secondary role-btn" type="button">Upgrader</button>
+            <button id="roleFrozenBtn" class="btn btn-secondary role-btn" type="button">Frozen</button>
+          </div>
+
+          <label class="field">
+            <span>Target address</span>
+            <input id="roleTargetAddress" type="text" placeholder="0x..." />
+          </label>
+
+          <div class="action-row">
+            <button id="roleGrantBtn" class="btn btn-primary">Grant / Apply</button>
+            <button id="roleRevokeBtn" class="btn btn-secondary">Revoke / Remove</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="statusToast" class="status-toast" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
