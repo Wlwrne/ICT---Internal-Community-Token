@@ -40,7 +40,7 @@ The interface is designed for administrative and testing purposes only.
 - Some actions are restricted by role:
   - `Admin` can access administrative functions
   - `Manager` can access treasury distribution functions
-  - Frozen accounts are restricted from certain actions
+  - `Frozen` accounts are restricted from certain actions
 
 ## Requirements
 
@@ -100,7 +100,7 @@ Rozhraní je určeno pouze pro administrativní a testovací účely.
 - Některé funkce jsou omezené podle rolí:
   - `Admin` má přístup k administrativním funkcím
   - `Manager` má přístup k distribučním funkcím treasury
-  - Zmrazené účty mají omezený přístup k některým funkcím
+  - `Frozen` účty mají omezený přístup k některým funkcím
 
 ## Požadavky
 
