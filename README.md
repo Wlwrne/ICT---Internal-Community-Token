@@ -23,7 +23,9 @@ The interface is designed for administrative and testing purposes only.
 - `index.html`
 - `style.css`
 - `app.js` 
-- `abi.json` 
+- `abi.json`
+- `Ethereum (Sepolia testnet)`
+- `Brave Wallet`
 
 ## How to Use
 
@@ -82,6 +84,8 @@ Rozhraní je určeno pouze pro administrativní a testovací účely.
 - `style.css` 
 - `app.js` 
 - `abi.json`
+- `Ethereum (Sepolia testnet)`
+- `Brave Wallet`
 
 ## Jak používat
 
