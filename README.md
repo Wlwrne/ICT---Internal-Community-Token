@@ -50,9 +50,11 @@ The interface is designed for administrative and testing purposes only.
 ## Disclaimer
 
 This project is a **learning and testing project** for smart contract interaction and administrative UI development.
-It is provided **as is**, without any warranty of any kind. 
-It should not be considered production-ready software.
-Use it only for educational, experimental, or internal testing purposes.  
+
+It is provided **as is**, without any warranty of any kind. It should not be considered production-ready software.
+
+Use it only for educational, experimental, or internal testing purposes.
+
 Always verify contract addresses, permissions, and network settings before performing any action.
 
 # Česky
@@ -108,7 +110,9 @@ Rozhraní je určeno pouze pro administrativní a testovací účely.
 ## Upozornění
 
 Tento projekt je **výukový a testovací projekt** pro práci se smart kontrakty a vývoj administračního rozhraní.
-Je poskytován **tak, jak je**, bez jakékoli záruky. 
-Není určen pro produkční nasazení.
-Používejte jej pouze pro vzdělávací, experimentální nebo interní testovací účely.  
+
+Je poskytován **tak, jak je**, bez jakékoli záruky. Není určen pro produkční nasazení.
+
+Používejte jej pouze pro vzdělávací, experimentální nebo interní testovací účely.
+
 Před jakoukoli akcí vždy ověřte adresy kontraktů, oprávnění a nastavení sítě.
