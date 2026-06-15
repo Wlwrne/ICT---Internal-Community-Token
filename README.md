@@ -106,7 +106,7 @@ Rozhraní je určeno pouze pro administrativní a testovací účely.
 
 - Prohlížeč s nainstalovaným Brave Wallet
 - Přístup k testovací síti Sepolia
-- 
+
 ## Upozornění
 
 Tento projekt je **výukový a testovací projekt** pro práci se smart kontrakty a vývoj administračního rozhraní.
